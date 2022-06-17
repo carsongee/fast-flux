@@ -19,4 +19,6 @@ RUN poetry config virtualenvs.create false && \
 
 COPY . /code
 
-CMD ["uvicorn", "fast_flux.main:app", "--host", "0.0.0.0", "--port", "8080"]
+EXPOSE 80
+
+CMD ["uvicorn", "fast_flux.main:app", "--host", "0.0.0.0", "--port", "80"]
