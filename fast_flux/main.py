@@ -8,4 +8,4 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": env.get("MESSAGE", "Default")}
+    return {"message": env.get("MESSAGE", "Default")}

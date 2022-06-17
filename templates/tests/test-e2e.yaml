@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "fast-flux.fullname" . }}-e2e-tests"
+  labels:
+    {{- include "fast-flux.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: fast-flux-e2e
+      image: fast-flux-registry:58154/fast-flux-e2e
+      env:
+        - name: "HOST_URI"
+          value: 'http://{{ include "fast-flux.fullname" . }}:{{ .Values.service.port }}'
+  restartPolicy: Never
