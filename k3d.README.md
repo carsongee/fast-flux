@@ -49,3 +49,15 @@ Check the app
 ```
 curl http://fast-flux.local:8081
 ```
+
+
+Run the tests
+```
+helm test fast-flux
+```
+
+
+Get meta-info
+```
+kubectl describe pod fast-flux-<number from kubectl get pods>
+```
