@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  registry: fast-flux-registry:58154
+  registry: k3d-registry:58154
   repository: fast-flux
   tag: latest
   pullPolicy: Always

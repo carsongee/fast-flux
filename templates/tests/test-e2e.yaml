@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: fast-flux-e2e
-      image: fast-flux-registry:58154/fast-flux-e2e
+      image: k3d-registry:58154/fast-flux-e2e
       env:
         - name: "HOST_URI"
           value: 'http://{{ include "fast-flux.fullname" . }}:{{ .Values.service.port }}'
