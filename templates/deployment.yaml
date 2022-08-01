@@ -13,7 +13,7 @@ spec:
       {{- include "fast-flux.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Chart.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

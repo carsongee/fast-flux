@@ -27,3 +27,7 @@ dependencies:
   - name: redis
     repository: https://charts.bitnami.com/bitnami
     version: 16.12.x
+
+annotations:
+  gitRepo: https://github.com/carsongee/fast-flux
+  gitSha: main
