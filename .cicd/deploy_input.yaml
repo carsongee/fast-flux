@@ -1,0 +1,11 @@
+inputSet:
+  name: deploy_input
+  identifier: deploy_input
+  orgIdentifier: default
+  projectIdentifier: fastfluxdemo
+  pipeline:
+    identifier: deploy
+    properties:
+      ci:
+        codebase:
+          build: <+input>
