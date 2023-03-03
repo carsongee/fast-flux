@@ -1,0 +1,14 @@
+inputSet:
+  name: pr-input
+  identifier: prinput
+  orgIdentifier: default
+  projectIdentifier: fastfluxdemo
+  pipeline:
+    identifier: ci_testing
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
