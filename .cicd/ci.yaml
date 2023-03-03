@@ -1,0 +1,52 @@
+pipeline:
+  name: ci
+  identifier: ci
+  projectIdentifier: fastfluxdemo
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.CarsonGee
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push an image to Docker Registry_1
+                  identifier: BuildandPushanimagetoDockerRegistry_1
+                  spec:
+                    connectorRef: org.cgdockerhub
+                    repo: carsongee/fast-flux
+                    tags:
+                      - <+pipeline.identifier>-<+pipeline.sequenceId>
+              - step:
+                  type: Run
+                  name: test
+                  identifier: test
+                  spec:
+                    connectorRef: org.cgdockerhub
+                    image: carsongee/fast-flux:<+pipeline.identifier>-<+pipeline.sequenceId>
+                    shell: Bash
+                    command: |-
+                      pytest tests \
+                                --junitxml=/harness/testResult_<+step.identifier>.xml
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/testResult_<+step.identifier>.xml"
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
