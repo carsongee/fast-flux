@@ -22,7 +22,9 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: "fast-flux"
 
-podAnnotations: {}
+podAnnotations:
+  gitRepo: https://github.com/carsongee/fast-flux
+  gitSha: main
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -79,9 +81,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-redis:
-  fullnameOverride: redis-cool
-  usePassword: false
-  configMap: |-
-    appendonly no
