@@ -45,3 +45,8 @@ pipeline:
                     command: |-
                       pytest tests \
                                 --junitxml=/harness/testResult_<+step.identifier>.xml
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/testResult_<+step.identifier>.xml"
