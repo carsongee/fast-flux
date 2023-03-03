@@ -9,6 +9,7 @@ pipeline:
       codebase:
         connectorRef: account.CarsonGee
         build: <+input>
+        prCloneStrategy: MergeCommit
   stages:
     - stage:
         name: Build
