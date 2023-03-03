@@ -114,3 +114,8 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.CarsonGee
+        build: <+input>
