@@ -8,8 +8,11 @@ image:
   repository: carsongee/fast-flux
   tag: latest
   pullPolicy: Always
+  registry: docker.io
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: docker-hub-token
+
 nameOverride: "fast-flux"
 fullnameOverride: "fast-flux"
 
