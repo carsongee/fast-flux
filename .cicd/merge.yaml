@@ -44,6 +44,10 @@ pipeline:
                   timeout: 10m
                   spec:
                     skipDryRun: false
+                    ignoreReleaseHistFailStatus: false
+                    delegateSelectors:
+                      - cg-mac
+                  failureStrategies: []
             rollbackSteps:
               - step:
                   name: Helm Rollback
