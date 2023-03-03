@@ -1,0 +1,116 @@
+pipeline:
+  name: deploy
+  identifier: deploy
+  projectIdentifier: fastfluxdemo
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: ci_testing
+        identifier: ci_testing
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: ci_testing
+          project: fastfluxdemo
+    - stage:
+        name: dev_deploy
+        identifier: dev_deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: NativeHelm
+          service:
+            serviceRef: fastflux
+          environment:
+            environmentRef: org.Development
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: cgmacdev
+          execution:
+            steps:
+              - step:
+                  name: Helm Deployment
+                  identifier: helmDeployment
+                  type: HelmDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Helm Rollback
+                  identifier: helmRollback
+                  type: HelmRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+    - stage:
+        name: prod_approval
+        identifier: prod_approval
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: appove
+                  identifier: appove
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: |-
+                      Please review the following information
+                      and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - account._account_all_users
+                    approverInputs: []
+        tags: {}
+    - stage:
+        name: prod_deploy
+        identifier: prod_deploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: NativeHelm
+          service:
+            useFromStage:
+              stage: dev_deploy
+          environment:
+            environmentRef: org.Production
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: cgmacprod
+          execution:
+            steps:
+              - step:
+                  name: Helm Deployment
+                  identifier: helmDeployment
+                  type: HelmDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+            rollbackSteps:
+              - step:
+                  name: Helm Rollback
+                  identifier: helmRollback
+                  type: HelmRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
